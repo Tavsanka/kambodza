@@ -1,0 +1,102 @@
+/* Korekty planera ładowane po guide.css. */
+.sync {
+  border: 1px solid color-mix(in srgb, var(--ink-900) 30%, transparent);
+  background: var(--paper-200);
+  color: var(--ink-600);
+}
+.sync__t { color: var(--ink-900); }
+
+.pill-pending {
+  display: inline-block;
+  margin-inline-start: .35rem;
+  padding: .12rem .42rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--ink-600);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  vertical-align: .08em;
+}
+
+.settle__rates {
+  display: block;
+  margin-top: .55rem;
+  color: var(--ivory-soft);
+  font-family: var(--sc-font-text);
+  font-size: .76rem;
+  font-weight: 400;
+  letter-spacing: .02em;
+  line-height: 1.4;
+}
+
+.expform .field input,
+.expform .field select {
+  border-bottom-color: #55594f;
+  border-bottom-width: 2px;
+}
+.expform .field input:focus-visible,
+.expform .field select:focus-visible,
+.expform .field textarea:focus-visible {
+  outline: 2px solid var(--ink-900);
+  outline-offset: 3px;
+}
+.expform .btn:disabled {
+  border-color: #8d8d84;
+  background: transparent;
+  color: #6d7068;
+  opacity: .72;
+}
+
+@media (max-width: 560px) {
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    overflow: visible;
+  }
+  .tabs [role="tab"] {
+    min-width: 0;
+    padding-inline: .2rem;
+    font-size: clamp(.62rem, 2.6vw, .76rem);
+    letter-spacing: .02em;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* Wydatki na telefonie: siatka nie może rozpychać panelu poza ekran. */
+@media (max-width: 960px) { .money { grid-template-columns: minmax(0, 1fr); } }
+.money > *, .expform, .expform > *, .expform .field { min-width: 0; }
+.expform .field input, .expform .field select { max-width: 100%; }
+
+/* Wyspy: końcowe zdanie mieści się w kadrze (twarde spacje wydłużają wiersze). */
+.isl__end { flex-basis: min(26rem, 78vw); padding-inline-end: var(--sc-gutter); box-sizing: content-box; }
+/* Paszport na telefonie: nazwy miast bez ucinania. */
+@media (max-width: 860px) {
+  .passport__slots li { flex: 0 0 auto; }
+  .passport__slots button { width: auto; min-width: 52px; padding-inline: .3rem; }
+  .passport__city { overflow: visible; text-overflow: clip; }
+}
+
+/* Telefon, planer: PL/EN schodzi na dół ekranu (paszport jest wtedy schowany), żeby nie zasłaniać zakładek. */
+@media (max-width: 860px) {
+  .corner.is-planner { top: auto; bottom: max(.6rem, env(safe-area-inset-bottom)); }
+}
+
+/* Karta miejsca: odstęp nad przyklejonym tytułem; znacznik odległości w osobnej linii nad opisem. */
+.placecard .pc__head { padding-top: calc(clamp(1rem, 3vw, 2rem) + .8rem); padding-bottom: .6rem; }
+.recs .dist { display: table; margin: .2rem 0 .25rem; border-radius: 999px; padding: .1rem .5rem; font-weight: 700; }
+
+/* Tabela wydatków na telefonie: kwoty z "≈ EUR" łamią się zamiast rozpychać stronę. */
+@media (max-width: 560px) {
+  .ledger { table-layout: fixed; }
+  .ledger th, .ledger td { overflow-wrap: anywhere; padding-inline: .2rem; }
+  .ledger td.num, .ledger th.num { white-space: normal; width: 34%; }
+}
+
+/* Pieczątki są ozdobą: nie mogą przechwytywać kliknięć (zasłaniały "Przewodnik: Pekin"). */
+.stamp-slot, .stamp-slot *, .stamp { pointer-events: none; }
+.guide-link { position: relative; z-index: 3; }

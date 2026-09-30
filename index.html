@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="pl">
+    <meta name="robots" content="noindex, nofollow">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kambodża 2026 · dziennik podróży Dominiki i Oksany</title>
+<meta name="description" content="Planer podróży: Wiedeń, Pekin, Kambodża i Mur Chiński. 31.10 do 12.11.2026.">
+<meta name="theme-color" content="#13211b">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2313211b'/><circle cx='16' cy='16' r='9' fill='none' stroke='%23d9502e' stroke-width='2.4'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,0..100;1,9..144,300..800,0..100&display=swap">
+<link rel="stylesheet" href="vendor/scrollcraft.css?v=f47ce6c">
+<link rel="stylesheet" href="css/style.css?v=f47ce6c">
+<link rel="stylesheet" href="css/places.css?v=f47ce6c">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="css/maps.css?v=f47ce6c">
+<link rel="stylesheet" href="css/guide.css?v=f47ce6c">
+<link rel="stylesheet" href="css/fixes.css?v=f47ce6c">
+<link rel="stylesheet" href="css/diary.css?v=f47ce6c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+</head>
+<body>
+
+<a class="skip" href="#planner" data-i18n="skip">Przejdź do planera</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<!-- Narożnik: język + skok do planera. Nie pasek: magazyn nie ma paska. -->
+<div class="corner" role="group">
+  <div class="lang" role="group" data-i18n-aria="lang.label" aria-label="Język">
+    <button type="button" data-lang="pl" aria-pressed="true">PL</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+  <a class="corner__link" href="#planner" data-i18n="nav.planner">Planer</a>
+</div>
+
+<!-- PASZPORT: ruch popisowy. Stemple lądują tu z rozkładówek; klik = skok. -->
+<nav class="passport" id="passport" data-i18n-aria="passport" aria-label="Paszport">
+  <p class="passport__label" data-i18n="passport">Paszport</p>
+  <ol class="passport__slots"></ol>
+</nav>
+
+<main id="story">
+
+  <!-- 0 · OKŁADKA: satelitarny globus i przelot po trasie -->
+  <section class="ch ch--cover" id="cover">
+    <div class="cover">
+      <div class="cover-map" id="cover-map" aria-label="Interaktywny globus z trasą podróży"></div>
+      <div class="cover-map__fallback" id="cover-map-fallback" hidden>
+        <p>Wiedeń · Bruksela · Pekin · Phnom Penh · Angkor · wyspy · Mur Chiński</p>
+      </div>
+      <div class="cover__globe" aria-hidden="true"><div class="emboss"><svg class="emboss__svg" viewBox="-110 -110 220 220"></svg></div></div>
+      <header class="cover__mast">
+        <p class="cover__kicker" data-i18n="cover.kicker">Dziennik podróży · jesień 2026</p>
+        <h1 class="cover__title" data-i18n="cover.title">Kambodża</h1>
+        <p class="cover__sub" data-i18n="cover.sub">Dominika i Oksana. Trzynaście dni, cztery loty Air China i jedna przesiadka na Murze Chińskim.</p>
+        <p class="cover__dates" data-i18n="cover.dates">31 października – 12 listopada 2026</p>
+      </header>
+      <aside class="cover-flight" id="cover-flight" aria-live="polite">
+        <p class="cover-flight__eyebrow" id="cover-flight-date"></p>
+        <h2 id="cover-flight-name"></h2>
+        <p id="cover-flight-lede"></p>
+      </aside>
+      <figure class="cover-postcard" id="cover-postcard" aria-hidden="true"><img alt="" loading="lazy" decoding="async"><figcaption></figcaption></figure>
+      <div class="cover-route-legend" aria-label="Trasy podróżniczek">
+        <span class="cover-route-legend__item cover-route-legend__item--dom">Dominika · z Wiednia</span>
+        <span class="cover-route-legend__item cover-route-legend__item--oks">Oksana · z Brukseli</span>
+      </div>
+      <div class="cover-controls">
+        <div class="cover-controls__buttons">
+          <button type="button" id="flight-toggle">Pauza</button>
+          <a href="#ch-vie" id="flight-skip">Pomiń</a>
+        </div>
+        <div class="cover-stops" id="cover-stops" aria-label="Przystanki"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 · WIEDEŃ: flow -->
+  <section class="ch ch--paper ch--vie" id="ch-vie" data-sc-act="flow">
+    <div class="spread">
+      <div class="spread__text" data-sc-in data-sc-stagger="70">
+        <p class="folio">I</p>
+        <h2 class="h2" data-i18n="vie.h">Wiedeń, sobota, 18:20</h2>
+        <p class="body" data-i18n="vie.p">Cały dzień na spokojne pakowanie, śniadanie na Naschmarkcie i ostatnią kawę. Wieczorem CA844 odrywa się od Dunaju i skręca na wschód, w noc, która potrwa dziewięć godzin i dwadzieścia minut.</p>
+        <div class="stamp-slot" data-stamp="vie-out"></div>
+      </div>
+      <figure class="spread__fig" data-sc-in>
+        <img src="assets/vienna-window.webp" srcset="assets/vienna-window-s.webp 900w, assets/vienna-window.webp 1600w" sizes="(max-width: 860px) 100vw, 55vw" width="1600" height="900" alt="Okno samolotu o zmierzchu nad równiną Dunaju" loading="lazy" decoding="async">
+        <figcaption data-i18n="vie.cap">Pierwsza noc w powietrzu. Za oknem gaśnie równina Dunaju.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 2 · PEKIN: reveal (kartka) -->
+  <section class="ch ch--slate ch--pek" id="ch-pek" data-sc-act="flow">
+    <div class="spread spread--rev">
+      <figure class="spread__fig spread__fig--tall" data-sc-reveal="left" data-sc-reveal-at="0.12 0.5">
+        <img src="assets/beijing-hutong.webp" width="860" height="1147" alt="Pekiński hutong w listopadowej mgle, czerwone drzwi i rower" loading="lazy" decoding="async">
+        <figcaption data-i18n="pek.cap">Hutong w listopadowej mgle. Trzy godziny, które mogą się zdarzyć.</figcaption>
+      </figure>
+      <div class="spread__text" data-sc-in data-sc-stagger="70">
+        <p class="folio">II</p>
+        <h2 class="h2" data-i18n="pek.h">Pekin, 8 godzin 20 minut</h2>
+        <p class="body" data-i18n="pek.p">Lądowanie o 10:40 w zimny listopad. Airport Express do Dongzhimen, godzina w hutongach przy Wieży Bębna, herbata i powrót na 19:00.</p>
+        <div class="stamp-slot" data-stamp="pek-out"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · PHNOM PENH: parallax (warstwy nocy) -->
+  <section class="ch ch--night" id="ch-pnh" data-sc-act="flow">
+    <div class="night__bed" data-sc-parallax="-1.4">
+      <picture>
+        <source media="(max-width: 860px)" srcset="assets/pp-night-s.webp">
+        <img src="assets/pp-night.webp" srcset="assets/pp-night-s.webp 900w, assets/pp-night.webp 1600w" sizes="100vw" width="1600" height="900" alt="Nabrzeże Phnom Penh nocą po deszczu, w oddali złoty dach pałacu" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="night__scrim" aria-hidden="true"></div>
+    <div class="night__copy" data-sc-in data-sc-stagger="80">
+      <p class="folio">III</p>
+      <h2 class="h2 h2--xl" data-i18n="pnh.h">Phnom Penh, 23:10</h2>
+      <p class="body" data-i18n="pnh.p">Powietrze jak ciepły ręcznik. Godzina drogi z nowego lotniska Techo, w łóżku koło pierwszej. Rano Pałac Królewski, Srebrna Pagoda i nabrzeże, gdzie Mekong spotyka Tonlé Sap.</p>
+      <div class="stamp-slot" data-stamp="pnh-in"></div>
+    </div>
+  </section>
+
+  <!-- 4 · PRZERYWNIK: autorska cisza przed szczytem -->
+  <section class="ch ch--paper ch--quiet" id="ch-int" data-sc-act="flow">
+    <div class="quiet" data-sc-in data-sc-stagger="120">
+      <p class="quiet__line" data-i18n="int.h">O dwunastej autobus na północ.</p>
+      <p class="body" data-i18n="int.p">Sześć godzin pól ryżowych, palm cukrowych i drzemki. Około 18:30 Siem Reap: na dworcu czeka tuk-tuk z Angkor Piseth Retreat, potem nocny targ, Pub Street i budzik ustawiony przed piątą.</p>
+    </div>
+  </section>
+
+  <!-- 5 · ANGKOR: SZCZYT. pin, mgła się rozstępuje -->
+  <section class="ch ch--angkor" id="ch-ank" data-sc-act="pin" data-sc-span="3.2">
+    <div data-sc-stage class="ank">
+      <div class="ank__face"><picture>
+        <source media="(max-width: 860px)" srcset="assets/bayon-s.webp">
+        <img src="assets/bayon.webp" srcset="assets/bayon-s.webp 900w, assets/bayon.webp 1600w" sizes="100vw" width="1600" height="900" alt="Kamienna twarz świątyni Bayon w Angkorze wyłania się z porannej mgły" loading="lazy" decoding="async">
+      </picture></div>
+      <img class="ank__mist ank__mist--l" src="assets/mist.webp" srcset="assets/mist-s.webp 900w, assets/mist.webp 1600w" sizes="150vw" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img class="ank__mist ank__mist--r" src="assets/mist.webp" srcset="assets/mist-s.webp 900w, assets/mist.webp 1600w" sizes="150vw" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <div class="ank__leaves" aria-hidden="true">
+        <div class="ank__leaf ank__leaf--l"><img src="assets/leaves.webp" srcset="assets/leaves-s.webp 900w, assets/leaves.webp 1600w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>
+        <div class="ank__leaf ank__leaf--r"><img src="assets/leaves.webp" srcset="assets/leaves-s.webp 900w, assets/leaves.webp 1600w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="ank__scrim" aria-hidden="true"></div>
+      <p class="ank__pre" data-sc-cue="0 0.34 0 0.25" data-i18n="ank.pre">Piąta rano. Tuk-tuk w ciemności. Mgła.</p>
+      <div class="ank__copy" data-sc-cue="0.44 1 0.18 0.04">
+        <p class="folio">IV</p>
+        <h2 class="ank__title" data-i18n="ank.h">Angkor</h2>
+        <p class="ank__line" data-i18n="ank.p">Mgła się rozstępuje. Z kamienia patrzy na ciebie twarz, która patrzy tak od ośmiuset lat.</p>
+        <p class="ank__more" data-i18n="ank.more">Angkor Wat o wschodzie, Bayon, Ta Prohm w uścisku korzeni, a dalej dżungla Beng Mealea.</p>
+        <div class="stamp-slot" data-stamp="rep"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · NOCNY AUTOBUS: flow, ciemny oddech -->
+  <section class="ch ch--ink" id="ch-bus" data-sc-act="flow">
+    <div class="bus" data-sc-in data-sc-stagger="90">
+      <h2 class="h2" data-i18n="bus.h">Nocny autobus</h2>
+      <p class="body" data-i18n="bus.p">Siem Reap znika za szybą. Klimatyzacja na mróz, kuszetki, światła mijanych wiosek. Rano pachnie morzem.</p>
+      <div class="ticket" id="bus-ticket">
+        <p class="ticket__label" data-i18n="bus.ticket">Bilet</p>
+        <p class="ticket__route">REP <span aria-hidden="true">·····</span> KOS</p>
+        <dl>
+          <div><dt data-i18n="bus.no">Nr rezerwacji</dt><dd data-ticket="no" data-i18n="bus.todo">do uzupełnienia</dd></div>
+          <div><dt data-i18n="bus.dep">Odjazd</dt><dd data-ticket="time" data-i18n="bus.todo">do uzupełnienia</dd></div>
+        </dl>
+        <p class="ticket__note" data-i18n="bus.note">Szczegóły ma Oksana. Wpisz je w planerze, w dniu przejazdu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · WYSPY: pan, pocztówki w bok -->
+  <section class="ch ch--sand" id="ch-isl" data-sc-act="pan" data-sc-span="4.2">
+    <div data-sc-stage class="isl">
+      <div class="isl__rail" data-sc-pan="0">
+        <div class="isl__lead">
+          <p class="folio">V</p>
+          <h2 class="h2 h2--xl" data-i18n="isl.h">Wyspy</h2>
+          <p class="body" data-i18n="isl.p">Tydzień zwalnia. Prom, piasek, plankton, hamak.</p>
+        </div>
+        <article class="card">
+          <img src="assets/shv-ferry.webp" width="860" height="1147" alt="Drewniany prom przy molo w Sihanoukville o poranku" loading="lazy" decoding="async">
+          <h3>Sihanoukville</h3>
+          <p class="card__date" data-dates="sihanoukville"></p>
+          <p data-i18n="isl.shv">Punkt przesiadkowy. Wieczór na Otres Beach, rano prom z Serendipity Pier.</p>
+          <div class="stamp-slot" data-stamp="kos"></div>
+        </article>
+        <article class="card card--b">
+          <img src="assets/kr-plankton.webp" width="860" height="1147" alt="Dłoń w czarnej wodzie świecącej planktonem, Koh Rong nocą" loading="lazy" decoding="async">
+          <h3>Koh Rong</h3>
+          <p class="card__date" data-dates="kohrong"></p>
+          <p data-i18n="isl.kr">Dżungla, Long Set Beach i nocna kąpiel w świecącym planktonie.</p>
+          <div class="stamp-slot" data-stamp="kr"></div>
+        </article>
+        <article class="card card--c">
+          <img src="assets/krs-hammock.webp" width="860" height="1147" alt="Pusty hamak między palmami nad Saracen Bay" loading="lazy" decoding="async">
+          <h3>Koh Rong Samloem</h3>
+          <p class="card__date" data-dates="kohrongsamloem"></p>
+          <p data-i18n="isl.krs">Cichsza siostra. Hamak nad Saracen Bay i nic do zrobienia.</p>
+          <div class="stamp-slot" data-stamp="krs"></div>
+        </article>
+        <p class="isl__end" data-i18n="isl.end">Poranny prom na ląd i cztery godziny autostradą do stolicy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · PHNOM PENH, POWRÓT: flow -->
+  <section class="ch ch--ink2" id="ch-pp2" data-sc-act="flow">
+    <div class="pp2" data-sc-in data-sc-stagger="80">
+      <p class="folio">VI</p>
+      <h2 class="h2" data-i18n="pp2.h">Phnom Penh, ostatni wieczór</h2>
+      <p class="body" data-i18n="pp2.p">Tuol Sleng i Choeung Ek: trudny, ważny dzień. Wieczorem Russian Market, masaż i dach nad rzeką. O 21:30 taksówka na lotnisko, o 00:25 CA746 na północ.</p>
+      <div class="stamp-slot" data-stamp="pnh-out"></div>
+    </div>
+  </section>
+
+  <!-- 9 · MUR: reveal iris (jedyny na stronie) -->
+  <section class="ch ch--frost" id="ch-wall" data-sc-act="flow">
+    <div class="wall">
+      <figure class="wall__fig" data-sc-reveal="iris" data-sc-reveal-at="0.1 0.46">
+        <picture>
+          <source media="(max-width: 860px)" srcset="assets/greatwall-s.webp">
+          <img src="assets/greatwall.webp" srcset="assets/greatwall-s.webp 900w, assets/greatwall.webp 1600w" sizes="(max-width: 860px) 100vw, 64vw" width="1600" height="900" alt="Mur Chiński w Mutianyu w szronie, wieże znikają we mgle" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <div class="wall__text" data-sc-in data-sc-stagger="80">
+        <p class="folio">VII</p>
+        <h2 class="h2" data-i18n="wall.h">Mur, przesiadka 20 godzin 35 minut</h2>
+        <p class="body" data-i18n="wall.p">Po CA746 i wyjściu z lotniska około 08:00 odpoczną w Starbucks na 2. piętrze T3. O 09:00 kierowca zabierze je na Mutianyu — bez przewodnika.</p>
+        <p class="note" data-i18n="wall.todo">Do ustalenia z kierowcą: godzina powrotu. Cena nie jest podana; szczegóły lotu Oksany do Brukseli czekają.</p>
+        <div class="stamp-slot" data-stamp="mut"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · WIEDEŃ, KOLOFON: rozwiązanie -->
+  <section class="ch ch--cover2" id="ch-end" data-sc-act="flow">
+    <div class="end">
+      <figure class="end__fig" data-sc-in>
+        <img src="assets/vienna-cafe.webp" srcset="assets/vienna-cafe-s.webp 900w, assets/vienna-cafe.webp 1600w" sizes="(max-width: 860px) 100vw, 50vw" width="1600" height="900" alt="Wiedeńska kawiarnia o świcie, melange na marmurowym stoliku" loading="lazy" decoding="async">
+      </figure>
+      <div class="end__text" data-sc-in data-sc-stagger="80">
+        <p class="folio">VIII</p>
+        <h2 class="h2" data-i18n="end.h">Wiedeń, czwartek, 6:20</h2>
+        <p class="body" data-i18n="end.p">Melange w kawiarni, zanim dopadnie jet lag. Paszport pełny.</p>
+        <div class="stamp-slot" data-stamp="vie-in"></div>
+        <p class="end__cta"><span data-i18n="end.cta.a">Opowieść kończy się tutaj. Reszta, czyli globus, plan dzień po dniu, notatki i wspólne wydatki, czeka</span> <a href="#planner" data-i18n="end.cta.link">w planerze poniżej</a>. <a href="#guide" data-i18n="end.cta.guide">Najpierw praktyczny poradnik</a>.</p>
+        <p class="colophon" data-i18n="end.colophon">Obrazy w opowieści wygenerowane w stylu retro (Codex). Zdjęcia miejsc: Wikimedia Commons (autorzy w kartach, „Źródła zdjęć”).</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="guide" id="guide" aria-labelledby="guide-h"></section>
+
+<!-- ============================ PLANER ============================ -->
+<section class="planner" id="planner" tabindex="-1" aria-labelledby="pl-h">
+  <header class="planner__head">
+    <h2 id="pl-h" class="planner__title" data-i18n="pl.h">Planer</h2>
+    <p class="planner__intro" data-i18n="pl.intro">Wszystko, co wpiszesz, zapisuje się w tej przeglądarce. Dane podróży pochodzą z pliku js/data.js.</p>
+    <aside class="sync" role="note">
+      <p class="sync__t" data-i18n="sync.title">Uwaga: brak synchronizacji</p>
+      <p data-i18n="sync.body">To statyczna strona.</p>
+    </aside>
+  </header>
+
+  <div class="tabs" role="tablist" aria-labelledby="pl-h">
+    <button role="tab" id="tab-globe" aria-controls="panel-globe" aria-selected="true" data-i18n="tab.globe">Globus</button>
+    <button role="tab" id="tab-days" aria-controls="panel-days" aria-selected="false" tabindex="-1" data-i18n="tab.days">Dzień po dniu</button>
+    <button role="tab" id="tab-money" aria-controls="panel-money" aria-selected="false" tabindex="-1" data-i18n="tab.money">Wydatki</button>
+    <button role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1" data-i18n="tab.data">Dane</button>
+  </div>
+
+  <div class="panel" id="panel-globe" role="tabpanel" aria-labelledby="tab-globe">
+    <div class="globe-wrap">
+      <div class="planner-map-shell">
+        <div class="map-switch" role="group" aria-label="Warstwa mapy">
+          <button type="button" data-map-style="map" aria-pressed="true">Mapa</button>
+          <button type="button" data-map-style="satellite" aria-pressed="false">Satelita</button>
+        </div>
+        <div class="globe" id="globe" aria-label="Interaktywna mapa trasy"></div>
+        <p class="globe__offline" id="globe-offline" hidden>Mapa wymaga połączenia z internetem. Lista przystanków nadal działa.</p>
+      </div>
+      <div class="stops">
+        <h3 class="h3" data-i18n="globe.stops">Przystanki w kolejności</h3>
+        <p class="hint" data-i18n="globe.hint">Kliknij pinezkę albo nazwę, żeby otworzyć kartę miejsca.</p>
+        <ol class="stops__list" id="stops"></ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-days" role="tabpanel" aria-labelledby="tab-days" hidden>
+    <div class="nights" id="nights"></div>
+    <ol class="days" id="days"></ol>
+  </div>
+
+  <div class="panel" id="panel-money" role="tabpanel" aria-labelledby="tab-money" hidden>
+    <div class="money">
+      <form class="expform" id="expform" novalidate></form>
+      <div class="money__side">
+        <div class="summary" id="summary" aria-live="polite"></div>
+        <div class="explist" id="explist"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+    <div class="datap" id="datap"></div>
+  </div>
+</section>
+
+<section class="diary" id="diary" aria-labelledby="diary-h"></section>
+
+<dialog class="placecard" id="placecard" aria-labelledby="pc-title">
+  <div class="placecard__inner" id="placecard-body"></div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="vendor/scrollcraft.js?v=f47ce6c"></script>
+<script src="js/data.js?v=f47ce6c"></script>
+<script src="js/i18n.js?v=f47ce6c"></script>
+<script src="js/core.js?v=f47ce6c"></script>
+<script src="js/story.js?v=f47ce6c"></script>
+<script src="js/story-extras.js?v=f47ce6c"></script>
+<script src="js/photodb.js?v=f47ce6c"></script>
+<script src="js/planner.js?v=f47ce6c"></script>
+<script src="js/practical-data.js?v=f47ce6c"></script>
+<script src="js/guide.js?v=f47ce6c"></script>
+<script src="js/sync.js?v=f47ce6c"></script>
+<script src="js/pwa.js?v=f47ce6c"></script>
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js" defer></script>
+<script src="js/journey-data.js?v=f47ce6c" defer></script>
+<script src="js/maps.js?v=f47ce6c" defer></script>
+<script src="js/diary.js?v=f47ce6c" defer></script>
+</body>
+</html>

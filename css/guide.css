@@ -1,0 +1,91 @@
+.guide {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4.5rem, 9vw, 8rem) max(var(--sc-gutter), calc((100vw - 76rem) / 2));
+  background: linear-gradient(rgb(44 89 83 / .055) 1px, transparent 1px) 0 0 / 100% 2.4rem, var(--paper-200);
+  color: var(--ink-900);
+}
+.guide::before {
+  content: ""; position: absolute; width: 16rem; height: 16rem; top: -9rem; right: -5rem;
+  border: 2px solid rgb(180 58 34 / .18); border-radius: 50%;
+  box-shadow: inset 0 0 0 1.2rem var(--paper-200), inset 0 0 0 1.3rem rgb(180 58 34 / .14); pointer-events: none;
+}
+.guide__inner { position: relative; max-width: 76rem; margin: 0 auto; }
+.guide__head { max-width: 50rem; margin-bottom: 2.2rem; }
+.guide__eyebrow, .guide__checked, .guide__kicker, .guide__country-head p {
+  margin: 0; color: var(--vermilion-600); font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+}
+.guide h2 { margin: .2rem 0 .7rem; font: 650 clamp(3rem, 8vw, 6.5rem)/.9 var(--sc-font-display); letter-spacing: -.045em; }
+.guide__intro { max-width: 43rem; margin: 0 0 1rem; color: var(--ink-600); font-size: clamp(1rem, 2vw, 1.18rem); }
+.guide__checked { display: inline-block; padding-bottom: .18rem; border-bottom: 1px solid currentColor; }
+
+.guide__check {
+  margin: 0 0 clamp(3rem, 7vw, 5rem); padding: clamp(1.15rem, 3vw, 1.8rem);
+  border: 1px solid var(--teal-700); border-left: .4rem solid var(--teal-700);
+  background: color-mix(in oklab, var(--paper-100) 88%, var(--teal-700)); box-shadow: .35rem .4rem 0 rgb(44 89 83 / .12);
+}
+.guide__check-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+.guide__check h3 { margin: .15rem 0 0; font: 650 1.55rem/1.1 var(--sc-font-display); }
+.guide__people { display: inline-flex; border: 1px solid var(--ink-900); background: var(--paper-100); }
+.guide__people button { min-height: 44px; padding: .4rem .8rem; border: 0; background: transparent; cursor: pointer; font-size: .75rem; font-weight: 750; }
+.guide__people button + button { border-left: 1px solid var(--ink-900); }
+.guide__people button[aria-pressed="true"] { background: var(--ink-900); color: var(--paper-100); }
+.guide__progress { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .8rem; margin-top: 1.1rem; }
+.guide__progress progress { width: 100%; height: .38rem; border: 0; border-radius: 0; background: var(--paper-300); color: var(--vermilion-600); }
+.guide__progress progress::-webkit-progress-bar { background: var(--paper-300); }
+.guide__progress progress::-webkit-progress-value { background: var(--vermilion-600); }
+.guide__progress progress::-moz-progress-bar { background: var(--vermilion-600); }
+.guide__progress span { font-size: .72rem; font-weight: 800; letter-spacing: .08em; }
+.guide__check-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .25rem 1.5rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+.guide__check-list li, .guide__check-list label { min-width: 0; }
+.guide__check-list label { position: relative; display: grid; grid-template-columns: 1.15rem minmax(0, 1fr); align-items: start; gap: .7rem; min-height: 44px; padding: .55rem .2rem; cursor: pointer; font-size: .9rem; line-height: 1.4; }
+.guide__check-list input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.guide__box { position: relative; width: 1rem; height: 1rem; margin-top: .08rem; border: 1.5px solid var(--teal-700); background: var(--paper-100); }
+.guide__check-list input:focus-visible + .guide__box { outline: 2px solid var(--focus); outline-offset: 3px; }
+.guide__check-list input:checked + .guide__box::after { content: "✓"; position: absolute; left: .05rem; top: -.5rem; color: var(--vermilion-600); font: 800 1.55rem/1 var(--sc-font-display); transform: rotate(-8deg); }
+.guide__check-list input:checked ~ .guide__check-copy { color: var(--ink-600); text-decoration: line-through; text-decoration-thickness: 1px; }
+.guide__country-tag { display: inline-block; margin-right: .45rem; padding: .08rem .28rem; border: 1px solid currentColor; font-size: .6rem; font-weight: 800; letter-spacing: .08em; line-height: 1.2; text-decoration: none; vertical-align: .08rem; }
+
+.guide__countries { display: grid; gap: clamp(3.5rem, 8vw, 6rem); }
+.guide__country { min-width: 0; scroll-margin-top: 2rem; }
+.guide__country-head { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.25rem; padding-bottom: .8rem; border-bottom: 2px solid var(--ink-900); }
+.guide__flag { font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1; filter: saturate(.82); }
+.guide__country-head h3 { margin: .08rem 0 0; font: 650 clamp(2rem, 5vw, 3.4rem)/1 var(--sc-font-display); letter-spacing: -.025em; }
+.guide__country-head h3 span { color: var(--ink-600); font-size: .48em; font-family: var(--sc-font-text); font-weight: 650; letter-spacing: .06em; white-space: nowrap; }
+.guide__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.15rem; align-items: start; }
+.guide-card { min-width: 0; padding: 1.3rem; border: 1px solid rgb(27 31 28 / .35); border-top: .28rem solid var(--vermilion-600); background: var(--paper-100); box-shadow: .28rem .32rem 0 rgb(27 31 28 / .1); }
+.guide-card:nth-child(3n) { border-top-color: var(--teal-700); }
+.guide-card h4 { margin: 0; font: 650 1.38rem/1.15 var(--sc-font-display); }
+.guide-card ul { margin: 1rem 0 0; padding: 0; list-style: none; }
+.guide-card li { padding: .8rem 0; border-top: 1px solid rgb(27 31 28 / .16); overflow-wrap: anywhere; }
+.guide-card li:first-child { padding-top: 0; border-top: 0; }
+.guide-card li:last-child { padding-bottom: 0; }
+.guide-card__meta { margin-bottom: .3rem; }
+.guide__prio { display: inline-block; padding: .1rem .35rem; border: 1px solid currentColor; color: var(--ink-600); font-size: .58rem; font-weight: 800; letter-spacing: .1em; line-height: 1.25; text-transform: uppercase; }
+.guide__prio--pilne { color: var(--vermilion-600); }
+.guide-card p { margin: 0; font-size: .88rem; line-height: 1.5; }
+.guide-card p strong { font-weight: 700; }
+.guide-card p span { color: var(--ink-600); }
+.guide__ref { margin-left: .12rem; font-size: .66em; line-height: 0; vertical-align: super; }
+.guide__ref a, .guide__sources a { color: var(--vermilion-600); text-underline-offset: .14em; }
+.guide__sources { margin-top: 1.2rem; padding-top: .8rem; border-top: 1px solid rgb(27 31 28 / .28); }
+.guide__sources h4 { margin: 0 0 .4rem; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; }
+.guide__sources ol { display: flex; flex-wrap: wrap; gap: .3rem 1.1rem; margin: 0; padding: 0; list-style: none; }
+.guide__sources li { font-size: .7rem; color: var(--ink-600); }
+.guide__sources li > span { display: inline-grid; place-items: center; width: 1rem; height: 1rem; margin-right: .15rem; border: 1px solid currentColor; font-size: .58rem; }
+
+@media (max-width: 900px) { .guide__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .guide { padding-inline: max(1rem, var(--sc-gutter)); }
+  .guide__check-head { align-items: stretch; flex-direction: column; }
+  .guide__people { align-self: flex-start; }
+  .guide__check-list, .guide__grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 390px) {
+  .guide { padding-inline: .9rem; }
+  .guide__check, .guide-card { padding: 1rem; }
+  .guide h2 { font-size: clamp(2.8rem, 17vw, 4rem); }
+  .guide__people { width: 100%; }
+  .guide__people button { flex: 1; min-width: 0; padding-inline: .45rem; }
+  .guide__country-head h3 { font-size: 1.85rem; }
+}
