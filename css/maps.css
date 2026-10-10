@@ -1,0 +1,261 @@
+/* MapLibre: okładka i mapa planera. */
+#cover, .cover { min-height: 100svh; }
+.cover { position: relative; background: #07100f; }
+.cover-map, .cover-map__fallback { position: absolute; inset: 0; z-index: 0; }
+.cover-map { background: #07100f; }
+.cover-map__fallback {
+  display: grid; place-items: end start; padding: 2rem var(--sc-gutter) 10rem;
+  background: radial-gradient(circle at 68% 42%, #264d48 0, #102c29 24%, #07100f 66%);
+  color: var(--ivory-soft); font: 600 .75rem/1.5 var(--sc-font-text); letter-spacing: .12em; text-transform: uppercase;
+}
+.cover-map__fallback[hidden] { display: none; }
+.cover::after { content: ""; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgb(3 10 9 / .55) 0, rgb(3 10 9 / .18) 26%, transparent 44%); transition: opacity 600ms ease; }
+.cover.is-close::after { opacity: .55; }
+.cover .cover__globe { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+.cover .cover__mast { z-index: 3; top: clamp(5rem, 12vh, 7rem); transform: none; padding: .8rem .95rem .9rem; max-width: min(29rem, calc(100vw - 2 * var(--sc-gutter))); background: linear-gradient(90deg, rgb(7 16 15 / .88), rgb(7 16 15 / .5) 78%, transparent); border-left: 3px solid var(--vermilion-400); }
+.cover .cover__title { font-size: clamp(3.2rem, 8vw, 7rem); text-shadow: 0 2px 4px #000, 0 0 16px rgb(0 0 0 / .55); }
+.cover .cover__sub { font-size: clamp(.95rem, 2vw, 1.15rem); }
+.cover-controls { position: absolute; z-index: 5; left: var(--sc-gutter); right: var(--sc-gutter); bottom: max(1rem, env(safe-area-inset-bottom)); }
+.cover-controls__buttons { display: flex; gap: .55rem; margin-bottom: .65rem; }
+.cover-controls button, .cover-controls a, .map-switch button { min-height: 44px; border: 1px solid currentColor; border-radius: 2px; padding: .65rem 1rem; font: 750 .78rem/1 var(--sc-font-text); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.cover-controls button, .cover-controls a { display: inline-flex; align-items: center; color: var(--ivory-ink); background: rgb(7 16 15 / .82); text-decoration: none; }
+.cover-controls button:hover, .cover-controls a:hover { background: var(--paper-100); color: var(--ink-900); }
+.cover-stops { display: flex; gap: .45rem; padding-bottom: .25rem; overflow-x: auto; scrollbar-width: thin; opacity: 0; visibility: hidden; transition: opacity 300ms ease; }
+.cover.is-flight-started .cover-flight, #cover.is-flight-started .cover-flight, #cover.is-flight-started .cover-stops { opacity: 1; visibility: visible; }
+.cover-stops button { flex: 0 0 auto; min-height: 44px; padding-inline: .85rem; background: rgb(7 16 15 / .78); }
+.cover-stops button[aria-current="true"] { color: var(--ink-900); background: var(--paper-100); }
+.cover-route-legend { position: absolute; z-index: 4; right: var(--sc-gutter); bottom: 5.5rem; display: grid; gap: .35rem; padding: .5rem .65rem; color: var(--ivory-ink); background: rgb(7 16 15 / .78); font: 700 .7rem/1.25 var(--sc-font-text); }
+.cover-route-legend__item { display: flex; align-items: center; gap: .45rem; }
+.cover-route-legend__item::before { content: ""; width: .65rem; height: .65rem; flex: 0 0 auto; border: 2px solid rgb(0 0 0 / .55); border-radius: 50%; background: #65b99b; }
+.cover-route-legend__item--oks::before { background: #f0995c; }
+.cover-airport-marker { display: grid; place-items: center; width: 2.15rem; height: 2.15rem; border: 2px solid rgb(0 0 0 / .65); border-radius: 50%; color: #101a16; background: #fff4d9; box-shadow: 0 1px 4px rgb(0 0 0 / .7); font: 800 11px/1 var(--sc-font-text); letter-spacing: .02em; }
+.maplibregl-ctrl-attrib { font-size: 10px; }
+.maplibregl-ctrl-group { border-radius: 2px; }
+
+.planner-map-shell { position: relative; min-width: 0; }
+#globe { width: 100%; min-height: 32rem; background: var(--forest-800); border: 1px solid var(--ink-900); }
+.map-switch, .planner-map-frame { display: flex; align-items: center; gap: .2rem; padding: .15rem .55rem; border: 0; border-radius: 999px; background: color-mix(in oklch, var(--paper-100) 92%, transparent); box-shadow: 0 1px 0 rgb(27 31 28 / .06), 0 8px 20px -10px rgb(27 31 28 / .45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.map-switch button, .planner-map-frame button { position: relative; min-height: 44px; padding-inline: .45rem; color: var(--ink-600); background: transparent; border: 0; font: 600 1rem/1.1 var(--sc-font-display); letter-spacing: normal; text-transform: none; touch-action: manipulation; }
+.map-switch button + button::before, .planner-map-frame button + button::before { content: "/"; position: absolute; inset-inline-start: -.1rem; inset-block-start: 50%; color: var(--ink-600); opacity: .6; transform: translateY(-50%); }
+.map-switch button::after, .planner-map-frame button::after { content: ""; position: absolute; inset-inline: .45rem; inset-block-end: .55rem; height: 2px; background: var(--vermilion-600); pointer-events: none; transform: scaleX(0); transform-origin: left; }
+.map-switch button[aria-pressed="true"], .planner-map-frame button[aria-pressed="true"] { color: var(--ink-900); font-style: italic; background: transparent; }
+.map-switch button[aria-pressed="true"]::after, .planner-map-frame button[aria-pressed="true"]::after { transform: scaleX(1); }
+.map-switch button:active, .planner-map-frame button:active { transform: translateY(1px); }
+.map-switch button:focus-visible, .planner-map-frame button:focus-visible { outline: 2px solid var(--vermilion-600); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .map-switch button:not([aria-pressed="true"]):hover, .planner-map-frame button:not([aria-pressed="true"]):hover { color: var(--ink-900); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .map-switch button::after, .planner-map-frame button::after { transition: transform 200ms ease-out; }
+}
+.retro-pin { width: 34px; height: 34px; display: grid; place-items: center; border: 2px solid #fff9e9; border-radius: 50% 50% 50% 4px; background: var(--vermilion-600); box-shadow: 2px 3px 0 rgb(19 33 27 / .55); color: white; font: 800 11px/1 var(--sc-font-text); transform: rotate(-45deg); cursor: pointer; }
+.retro-pin span { transform: rotate(45deg); }
+.retro-pin--proposal { width: 27px; height: 27px; opacity: .82; background: var(--forest-600); }
+.retro-pin:focus-visible { outline: 3px solid var(--vermilion-400); outline-offset: 3px; }
+.map-switch { position: absolute; z-index: 3; top: .7rem; left: .7rem; }
+.planner-map-frame { position: absolute; z-index: 3; left: .7rem; bottom: .7rem; }
+.map-switch button, .planner-map-frame button { cursor: pointer; }
+.globe__offline { position: absolute; z-index: 4; inset: auto 1rem 1rem; margin: 0; padding: .7rem .9rem; background: var(--paper-100); color: var(--ink-900); border: 1px solid currentColor; }
+
+@media (max-width: 860px) {
+  .cover .cover__mast { top: 4.6rem; }
+  .cover .cover__title { font-size: clamp(3.4rem, 19vw, 5.4rem); }
+  .cover .cover__sub { display: none; }
+  #globe { min-height: 27rem; }
+}
+@media (max-width: 520px) {
+  #cover { --passport-h: 64px; }
+  .cover .cover__mast { right: var(--sc-gutter); }
+  .cover .cover__title { font-size: clamp(2.9rem, 16vw, 4.4rem); }
+  .cover .cover__kicker { margin-bottom: .6rem; }
+  .cover .cover__dates { font-size: 1rem; }
+  .cover-controls { bottom: max(.5rem, env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom); }
+  .cover-controls__buttons { margin-bottom: .4rem; }
+  .cover-stops { flex-wrap: nowrap; width: 100%; }
+  .cover-route-legend { right: var(--sc-gutter); bottom: calc(var(--passport-h) + 8.8rem); font-size: .62rem; }
+  .planner-map-frame { bottom: 2.6rem; }
+  #globe { min-height: 24rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover .cover__mast { transform: none !important; }
+}
+
+/* po starcie przelotu tytuł ustępuje miejsca zdjęciu */
+.cover .cover__mast { transition: transform 600ms var(--sc-ease-out, ease), opacity 600ms ease, background-color 600ms ease; transform-origin: left top; }
+.cover.is-flight-started .cover__mast { transform: scale(.72) !important; background: linear-gradient(90deg, rgb(7 16 15 / .62), rgb(7 16 15 / .25) 80%, transparent); }
+.cover.is-flight-started .cover__mast .cover__sub { opacity: 0; }
+.cover-route-legend { font-size: .82rem; padding: .6rem .8rem; gap: .45rem; }
+.cover-route-legend__item::before { width: .85rem; height: .85rem; }
+@media (max-width: 640px) { .cover.is-flight-started .cover__mast { transform: scale(.8) !important; } .cover-route-legend { font-size: .72rem; } }
+@media (prefers-reduced-motion: reduce) { .cover .cover__mast { transition: none; } }
+/* ================================================================
+   PORZĄDEK OKŁADKI (29.09): na pierwszym ekranie tylko tytuł, globus
+   i jeden przycisk. Paszport, przystanki, legenda i kontrolki mapy
+   pojawiają się dopiero, kiedy mają sens.
+   ================================================================ */
+
+/* paszport nie wisi nad okładką — wjeżdża przy pierwszym rozdziale */
+body.on-cover .passport { transform: translateX(-102%); }
+@media (max-width: 860px) { body.on-cover .passport { transform: translateY(102%); } }
+body.on-cover .passport { transition: transform 450ms var(--sc-ease-out, ease); }
+
+/* bez przycisków zoom/kompas na okładce (gesty wystarczą) */
+.cover .maplibregl-ctrl-top-right { display: none; }
+/* atrybucja: mała, przy krawędzi, nad niczym */
+.cover .maplibregl-ctrl-bottom-right { z-index: 2; opacity: .75; }
+.cover .maplibregl-ctrl-attrib.maplibregl-compact { background: rgb(7 16 15 / .6); color: var(--ivory-soft); }
+.cover .maplibregl-ctrl-attrib.maplibregl-compact a { color: inherit; }
+
+/* tytuł: jeden czysty blok, bez pudełka, trasa nie przechodzi „przez tekst” (scrim tylko pod tekstem) */
+.cover .cover__mast { background: none; border-left: 0; padding: 0; max-width: min(34rem, 44vw); }
+.cover .cover__mast::before { content: ""; position: absolute; z-index: -1; inset: -3rem -6rem -3rem -40vw;
+  background: radial-gradient(closest-side, rgb(4 12 11 / .78), rgb(4 12 11 / .5) 60%, transparent); pointer-events: none; }
+.cover .cover__kicker { color: var(--vermilion-400); }
+.cover::after { background: none; }
+
+/* start: jeden przycisk. Przystanki, legenda, pauza — dopiero po starcie */
+#flight-skip { display: none; }
+.cover-route-legend, .cover-stops { opacity: 0; visibility: hidden; transition: opacity 300ms ease; }
+.cover.is-flight-started .cover-route-legend, #cover.is-flight-started .cover-stops,
+#cover.is-flight-started .cover-route-legend { opacity: 1; visibility: visible; }
+.cover-route-legend { bottom: auto; top: calc(18% + 9.5rem); font-size: .78rem; }
+
+/* po starcie przelotu: tytuł mały w rogu, karta etapu pod nim, przystanki na dole */
+.cover.is-flight-started .cover__mast .cover__dates { opacity: 0; }
+
+/* telefon: okładka pionowo, bez kolizji */
+@media (max-width: 520px) {
+  .cover .cover__mast { max-width: none; left: var(--sc-gutter); right: var(--sc-gutter); top: 4.2rem; }
+  .cover .cover__mast::before { inset: -2rem -2rem -2rem -2rem; }
+  .cover-controls { bottom: max(1rem, env(safe-area-inset-bottom)); }
+  .cover-route-legend { display: none; }
+  .cover-stops { mask-image: linear-gradient(90deg, #000 85%, transparent); -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { body.on-cover .passport { transition: none; } }
+
+/* ================= PODRÓŻ NA GLOBUSIE (30.09): pojazdy, pocztówka, państwo pod trasą */
+.jr-vehicle { width: 34px; height: 34px; display: grid; place-items: center; pointer-events: none; }
+.jr-vehicle svg { width: 30px; height: 30px; transform: rotate(var(--rot, 0deg)); transition: transform 120ms linear; }
+.jr-vehicle--plane svg { fill: var(--c, #fff); stroke: #0b1512; stroke-width: 1.1px; paint-order: stroke; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .8)); }
+.jr-vehicle--bus, .jr-vehicle--boat { border-radius: 50%; background: var(--c, #f3e6c4); border: 2px solid #0b1512; box-shadow: 0 2px 6px rgb(0 0 0 / .7); }
+.jr-vehicle--bus svg, .jr-vehicle--boat svg { width: 20px; height: 20px; fill: #0b1512; transform: none; }
+.jr-vehicle.is-flip svg { transform: scaleX(-1); }
+
+/* poprawki po przeglądzie 30.09 */
+.jr-vehicle--plane { width: 46px; height: 46px; }
+.jr-vehicle--plane svg { width: 42px; height: 42px; fill: #fffaf0; stroke: var(--c, #65b99b); stroke-width: 1.6px; filter: drop-shadow(0 0 6px rgb(0 0 0 / .95)) drop-shadow(0 0 2px rgb(0 0 0)); }
+.jr-tag { position: absolute; left: 50%; top: calc(100% + 4px); translate: -50% 0; white-space: nowrap; padding: .22rem .5rem; background: #f7efda; color: #13211b; border: 1px solid #13211b; font: 800 .72rem/1 var(--sc-font-text); letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 3px 8px rgb(0 0 0 / .6); }
+.jr-tag:empty { display: none; }
+.jr-tag.is-new { animation: jrTag 700ms ease; }
+@keyframes jrTag { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.jr-vehicle { position: relative; }
+.cover .maplibregl-ctrl-bottom-right { bottom: 4.1rem; }
+.cover .maplibregl-ctrl-attrib.maplibregl-compact:not(.maplibregl-compact-show) { background: rgb(247 239 218 / .7); }
+
+.jr-vehicle--plane .jr-tag { border: 2px solid var(--c, #13211b); }
+
+.jr-tag { left: calc(100% + 2px); top: 50%; translate: 0 -50%; }
+.jr-vehicle--bus .jr-tag, .jr-vehicle--boat .jr-tag { display: none; }
+
+.cover-route-legend { top: 5rem; right: var(--sc-gutter); bottom: auto; font-size: .68rem; padding: .4rem .55rem; }
+@media (max-width: 640px) {
+  .cover-route-legend { display: none; }
+}
+
+/* ================= DÓŁ OKŁADKI (1.10): jeden cienki rząd — Leć/Pauza · Pomiń · przystanki jako napisy.
+   Karta lotu stoi nad tym rzędem, nic na nią nie nachodzi. */
+.cover-controls { display: flex; align-items: center; gap: .9rem; left: var(--sc-gutter); right: var(--sc-gutter); bottom: max(.9rem, env(safe-area-inset-bottom)); }
+.cover-controls__buttons { display: flex; flex: 0 0 auto; gap: .35rem; margin: 0; }
+.cover-controls button, .cover-controls a {
+  min-height: 30px; padding: .3rem .65rem; border: 1px solid rgb(247 239 218 / .55); border-radius: 999px;
+  background: rgb(7 16 15 / .55); color: #f7efda; font: 700 .64rem/1 var(--sc-font-text); letter-spacing: .12em;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.cover-controls button:hover, .cover-controls a:hover { background: #f7efda; color: #13211b; }
+.cover-stops { flex: 1 1 auto; min-width: 0; gap: 0; padding: 0; align-items: center; overflow-x: auto; scrollbar-width: none; }
+.cover-stops::-webkit-scrollbar { display: none; }
+.cover-stops button {
+  flex: 0 0 auto; min-height: 30px; padding: .3rem .1rem; margin: 0 .55rem 0 0; border: 0; border-radius: 0; background: none;
+  color: rgb(247 239 218 / .72); font: 600 .72rem/1 var(--sc-font-text); letter-spacing: .04em; text-transform: none;
+  text-shadow: 0 1px 3px rgb(0 0 0 / .9); backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+.cover-stops button + button::before { content: "·"; margin-right: .55rem; color: rgb(247 239 218 / .45); }
+.cover-stops button:hover { background: none; color: #fff; }
+.cover-stops button[aria-current="true"] { background: none; color: #fff; text-decoration: underline; text-decoration-color: var(--vermilion-600, #d9502e); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.cover .maplibregl-ctrl-bottom-right { bottom: 3.2rem; }
+@media (max-width: 640px) {
+  .cover-controls { flex-direction: column; align-items: stretch; gap: .35rem; bottom: max(.5rem, env(safe-area-inset-bottom)); }
+  .cover-controls__buttons { justify-content: flex-start; }
+  .cover-stops button { font-size: .7rem; }
+}
+/* czytelność dolnego rzędu: delikatny ciemny pasek pod napisami, bez ramek */
+.cover-controls::before { content: ""; position: absolute; z-index: -1; left: calc(-1 * var(--sc-gutter)); right: calc(-1 * var(--sc-gutter)); top: -.9rem; bottom: -1.2rem; background: linear-gradient(0deg, rgb(4 10 9 / .72), rgb(4 10 9 / 0)); pointer-events: none; }
+.cover-stops button { color: rgb(247 239 218 / .86); }
+@media (max-width: 640px) {
+  .cover-stops button { font-size: .76rem; padding-block: .45rem; }
+  .cover .maplibregl-ctrl-bottom-right { bottom: calc(var(--passport-h, 52px) + 5.2rem); }
+}
+@media (max-width: 640px) { .cover .maplibregl-ctrl-bottom-right { bottom: auto; top: 7.6rem; } }
+
+/* ================= OKLADKA NOC4: bilet, pocztowka i pinezka ================= */
+.cover-flight {
+  position: absolute; z-index: 5; top: 17%; right: var(--sc-gutter); bottom: auto; left: auto;
+  box-sizing: border-box; width: min(22rem, calc(100vw - 2 * var(--sc-gutter))); height: auto;
+  padding: .58rem .7rem .52rem; overflow: visible; color: #1b1f1c; background: #f7efda;
+  border: 1px solid #5f594c; box-shadow: 0 6px 18px rgb(0 0 0 / .35); transform: rotate(.25deg);
+  opacity: 0; visibility: hidden; transition: opacity 300ms ease;
+}
+.cover-flight::after { content: ""; position: absolute; right: .45rem; bottom: -.2rem; left: .45rem; border-bottom: 2px dashed #8f8067; }
+.cf-row, .cf-heading { display: flex; align-items: center; gap: .48rem; min-width: 0; }
+.cf-row h2, .cover-flight h2 { min-width: 0; margin: 0; font: 700 1.12rem/1.05 var(--sc-font-display); }
+.cf-kicker { flex: 0 0 auto; color: #75301f; font: 800 .75rem/1.1 var(--sc-font-text); letter-spacing: .07em; text-transform: uppercase; }
+.cf-codes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .35rem .65rem; }
+.cf-code { display: flex; align-items: center; min-width: 0; gap: .35rem; }
+.cf-route-dot { width: .45rem; height: .45rem; flex: 0 0 auto; border-radius: 50%; background: #65b99b; }
+.cf-code--oks .cf-route-dot { background: #f0995c; }
+.cf-code--both .cf-route-dot { background: #8b7550; }
+.cf-code strong { min-width: 0; white-space: nowrap; font: 700 1.08rem/1 var(--sc-font-display); }
+.cf-code strong span { color: #b43a22; }
+.cf-code time, .cf-row time { flex: 0 0 auto; color: #4d473d; white-space: nowrap; font: 750 12px/1 var(--sc-font-text); }
+.cf-row time { margin-left: auto; }
+.cover-flight[data-kind="ground"] h2 { white-space: nowrap; font: 750 .78rem/1.1 var(--sc-font-text); }
+.cf-flight-meta { display: flex; align-items: center; gap: .55rem; margin-top: .48rem; }
+.cf-progress { --p: 0%; position: relative; flex: 1 1 auto; height: 1px; margin-inline: .28rem; background: #8a7c63; }
+.cf-progress i { display: block; width: var(--p); height: 3px; translate: 0 -1px; background: #b43a22; }
+.cf-progress b { position: absolute; top: 50%; left: 0; width: 1.05rem; height: 1.05rem; translate: -50% -50%; }
+.cf-progress svg, .cf-mode svg { width: 100%; height: 100%; fill: #1b1f1c; }
+.cf-mode { width: 1.25rem; height: 1.25rem; flex: 0 0 auto; }
+.cf-country { flex: 0 1 auto; max-width: 48%; padding: .22rem .4rem; overflow: hidden; color: #fff; background: #9c321f; white-space: nowrap; text-overflow: ellipsis; font: 800 .75rem/1.1 var(--sc-font-text); }
+.cf-country:empty { display: none; } .cf-country.is-changing { animation: cfCountry 250ms ease; }
+@keyframes cfCountry { from { opacity: 0; } to { opacity: 1; } }
+.cf-copy { display: -webkit-box; margin: .28rem 0 0; overflow: hidden; overflow-wrap: normal; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font: 600 .78rem/1.2 var(--sc-font-text); }
+
+.cover-land-pin { width: 18px; height: 18px; border: 3px solid #f7efda; border-radius: 50%; background: #d9502e; box-shadow: 0 0 0 0 rgb(217 80 46 / .65), 0 2px 8px #000; animation: landPin 1.35s ease-out infinite; }
+@keyframes landPin { 70%, 100% { box-shadow: 0 0 0 14px rgb(217 80 46 / 0), 0 2px 8px #000; } }
+.cover-postcard-thread { position: absolute; z-index: 4; inset: 0; width: 100%; height: 100%; overflow: visible; opacity: 0; pointer-events: none; transition: opacity 220ms ease; filter: drop-shadow(0 1px 2px #000); }
+.cover-postcard-thread.is-on { opacity: 1; }
+.cover-postcard-thread line { stroke: #f7efda; stroke-width: 1.5; stroke-dasharray: 5 5; }
+.cover-postcard {
+  position: absolute; z-index: 5; width: min(27rem, 38vw); max-height: 55vh; box-sizing: border-box; margin: 0;
+  padding: .62rem .62rem .5rem; overflow: hidden; pointer-events: none; opacity: 0; background: #f7efda;
+  box-shadow: 0 25px 50px -14px rgb(0 0 0 / .78); transform: translate(var(--from-x, 0), var(--from-y, 0)) rotate(-3deg) scale(.08);
+  transform-origin: center; transition: opacity 200ms ease, transform 820ms cubic-bezier(.16, 1.18, .3, 1);
+}
+.cover-postcard.is-on { opacity: 1; transform: translate(0, 0) rotate(-3deg) scale(1); }
+.cover-postcard.is-returning { opacity: 0; transform: translate(var(--from-x, 0), var(--from-y, 0)) rotate(-3deg) scale(.08); transition-duration: 450ms; transition-timing-function: ease-in; }
+.cover-postcard img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #d9ccb0; }
+.cover-postcard figcaption { display: grid; gap: .14rem; padding: .42rem .18rem .05rem; color: #1b1f1c; }
+.cover-postcard figcaption strong { font: italic 700 1.02rem/1.1 var(--sc-font-display); }
+.cover-postcard figcaption span { font: 600 .76rem/1.22 var(--sc-font-text); }
+@media (max-width: 640px) {
+  .cover-flight { top: var(--flight-top, 9.4rem); right: auto; bottom: auto; left: var(--sc-gutter); width: min(17.5rem, calc(100vw - 2 * var(--sc-gutter))); max-width: 17.5rem; max-height: none; padding: .46rem .55rem .4rem; transform: none; }
+  .cf-codes { grid-template-columns: 1fr; gap: .22rem; } .cf-code strong { font-size: 1rem; }
+  .cf-flight-meta { margin-top: .38rem; } .cf-country { max-width: 52%; }
+  .cf-row h2, .cover-flight h2 { font-size: 1rem; }
+  .cf-copy { margin-top: .2rem; font-size: .75rem; line-height: 1.16; -webkit-line-clamp: 1; }
+  .cover-postcard { min-width: 65vw; max-width: 78vw; max-height: 42vh; padding: .45rem .45rem .34rem; }
+  .cover-postcard img { aspect-ratio: 3 / 2; } .cover-postcard figcaption strong { font-size: .9rem; } .cover-postcard figcaption span { font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover-land-pin { animation: none; } .cover-postcard, .cover-postcard.is-on, .cover-postcard.is-returning { transform: rotate(-3deg); transition: opacity 180ms ease; }
+}

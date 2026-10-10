@@ -1,0 +1,220 @@
+/* ====================================================================
+   PODSTRONA O SWIATYNIACH (temples.html)
+   Retro magazyn: papier, czerwien cynobrowa, szeryfowe naglowki.
+   Mobile-first. Zdjecia przeplatane z tekstem, nie wszystkie na dole.
+   ==================================================================== */
+
+.tpl-body {
+  margin: 0;
+  background: var(--paper-200);
+  color: var(--ink-900);
+  font: 400 1rem/1.6 var(--sc-font-text);
+  -webkit-text-size-adjust: 100%;
+}
+
+.tpl-body, .tpl-body *, .tpl-body *::before, .tpl-body *::after { box-sizing: border-box; }
+.tpl-wrap { width: 100%; max-width: 72rem; margin: 0 auto; padding: 0 var(--sc-gutter, 1.25rem); }
+
+.tpl h2 { font: 650 clamp(2rem, 6vw, 3.6rem)/1 var(--sc-font-display); letter-spacing: -.035em; margin: .2rem 0 .8rem; }
+.tpl h3 { font: 650 clamp(1.3rem, 3.4vw, 1.9rem)/1.12 var(--sc-font-display); letter-spacing: -.02em; margin: 0 0 .4rem; }
+.tpl h4 {
+  margin: 0 0 .35rem; color: var(--teal-700);
+  font: 800 .7rem/1.2 var(--sc-font-text); letter-spacing: .16em; text-transform: uppercase;
+}
+.tpl p { margin: 0 0 .9rem; }
+.tpl p:last-child { margin-bottom: 0; }
+
+.tpl-kicker, .tpl-day__date, .tpl-hero__eyebrow {
+  margin: 0; color: var(--vermilion-600);
+  font: 800 .72rem/1.2 var(--sc-font-text); letter-spacing: .16em; text-transform: uppercase;
+}
+.tpl-lede { max-width: 46rem; color: var(--ink-600); font-size: clamp(1rem, 2.2vw, 1.15rem); }
+
+/* ------------------------------------------------------------- OKLADKA */
+.tpl-hero { position: relative; display: grid; align-items: end; min-height: min(86svh, 46rem); overflow: hidden; background: var(--forest-900); }
+.tpl-hero__media { position: absolute; inset: 0; }
+.tpl-hero__media img { width: 100%; height: 100%; object-fit: cover; opacity: .82; filter: saturate(.92) contrast(1.02); }
+.tpl-hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to top, rgb(14 24 20 / .94) 0%, rgb(14 24 20 / .82) 26%, rgb(14 24 20 / .34) 56%, rgb(14 24 20 / .12) 100%),
+    linear-gradient(to bottom, rgb(14 24 20 / .5) 0%, transparent 22%);
+}
+.tpl-hero__inner {
+  position: relative; z-index: 2; width: 100%; max-width: 72rem; margin: 0 auto;
+  padding: clamp(5rem, 12vh, 9rem) var(--sc-gutter, 1.25rem) clamp(2rem, 6vh, 3.5rem);
+  color: var(--ivory-ink);
+}
+.tpl-hero__eyebrow { color: var(--vermilion-400); }
+.tpl-hero__title {
+  margin: .3rem 0 .7rem; max-width: 24ch;
+  font: 650 clamp(2.6rem, 11vw, 6.6rem)/.9 var(--sc-font-display); letter-spacing: -.045em;
+}
+.tpl-hero__lede {
+  max-width: 34rem; margin: 0 0 1.7rem; color: #e6dfd0;
+  font-size: clamp(1rem, 2vw, 1.1rem); line-height: 1.62;
+  text-shadow: 0 1px 2px rgb(10 18 15 / .55);
+}
+.tpl-hero__nav {
+  display: grid; gap: 0; margin: 0 0 1.5rem; max-width: 30rem;
+  border-top: 1px solid rgb(241 235 223 / .3);
+}
+.tpl-hero__nav a {
+  position: relative; display: flex; align-items: baseline; gap: .7rem;
+  min-height: 44px; padding: .62rem 1.6rem .62rem 0;
+  border-bottom: 1px solid rgb(241 235 223 / .3);
+  color: var(--ivory-ink); text-decoration: none;
+  font: 600 .92rem/1.3 var(--sc-font-display); letter-spacing: 0;
+}
+.tpl-hero__nav a::before {
+  content: counter(tplnav, decimal-leading-zero); counter-increment: tplnav;
+  flex: 0 0 auto; color: var(--vermilion-400);
+  font: 800 .66rem/1.9 var(--sc-font-text); letter-spacing: .14em;
+}
+.tpl-hero__nav a::after {
+  content: "\2192"; position: absolute; right: .1rem; top: 50%; translate: 0 -50%;
+  color: var(--ivory-soft); font-size: .9rem;
+}
+.tpl-hero__nav { counter-reset: tplnav; }
+.tpl-hero__nav a:last-child::before { content: "\00b7\00a0"; counter-increment: none; }
+.tpl-hero__nav a:last-child { font-style: italic; color: var(--ivory-soft); }
+.tpl-hero__nav a:focus-visible { color: var(--vermilion-400); }
+.tpl-hero__back a, .tpl-foot__back a { color: var(--ivory-soft); text-decoration: none; font-size: .82rem; letter-spacing: .06em; }
+@media (hover: hover) and (pointer: fine) {
+  .tpl-hero__nav a:hover { color: var(--vermilion-400); }
+  .tpl-hero__nav a:hover::after { translate: .25rem -50%; }
+  .tpl-hero__back a:hover, .tpl-foot__back a:hover { color: var(--ivory-ink); text-decoration: underline; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tpl-hero__nav a::after { transition: translate 180ms var(--sc-ease-out, ease-out); }
+}
+
+/* ------------------------------------------------------- TRZY ZYCZENIA */
+.tpl-wishes { padding: clamp(3rem, 8vw, 5.5rem) 0; background: var(--forest-800); color: var(--ivory-ink); }
+.tpl-wishes h2 { color: var(--paper-100); }
+.tpl-wishes .tpl-lede { color: var(--ivory-soft); }
+.tpl-wishes__list { list-style: none; display: grid; gap: 1rem; margin: 1.8rem 0 0; padding: 0; }
+.tpl-wishes__list li {
+  padding: 1.1rem 1.2rem; border-left: .3rem solid var(--vermilion-400);
+  background: rgb(243 238 227 / .07);
+}
+.tpl-wish__where { margin: 0 0 .35rem; color: var(--vermilion-400); font: 800 .68rem/1.2 var(--sc-font-text); letter-spacing: .14em; text-transform: uppercase; }
+.tpl-wish__text { margin: 0; font: italic 400 clamp(1.05rem, 2.6vw, 1.45rem)/1.35 var(--sc-font-display); color: var(--paper-100); }
+
+/* ----------------------------------------------------------------- DZIEN */
+.tpl-day { padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 5vw, 3rem); }
+.tpl-day:nth-of-type(even) { background: var(--paper-300); }
+.tpl-day__head {
+  max-width: 46rem; margin: 0 auto clamp(2rem, 5vw, 3rem); padding-bottom: 1.1rem;
+  border-bottom: 2px solid var(--ink-900); text-align: center;
+}
+.tpl-day__head h2 { margin: .25rem 0 .5rem; }
+.tpl-day__sub { margin: 0; color: var(--ink-600); font-size: clamp(.95rem, 2vw, 1.08rem); }
+.tpl-day__stops { display: grid; gap: clamp(2.5rem, 7vw, 4.5rem); }
+
+/* ------------------------------------------------------- KARTA SWIATYNI */
+.tpl-stop { max-width: 58rem; margin: 0 auto; }
+.tpl-stop__head { display: flex; align-items: baseline; gap: .9rem; margin-bottom: 1rem; }
+.tpl-stop__num { flex: 0 0 auto; margin: 0; }
+.tpl-stop__num span {
+  display: grid; place-items: center; width: 2.4rem; height: 2.4rem;
+  color: var(--vermilion-600); font: italic 600 1.2rem/1 var(--sc-font-display);
+}
+.tpl-stop__theme { margin: 0; color: var(--vermilion-600); font: italic 500 1rem/1.3 var(--sc-font-display); }
+.tpl-stop__body { margin-top: 1.2rem; }
+.tpl-stop__block { margin-bottom: 1.5rem; }
+.tpl-stop__block p { font-size: clamp(1rem, 2.1vw, 1.08rem); }
+.tpl-stop__src { margin-top: 1rem; color: var(--ink-600); font-size: .76rem; letter-spacing: .02em; }
+.tpl-stop__src span { font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.tpl-stop__src a { color: var(--teal-700); }
+
+/* INTENCJA: najwazniejszy element karty */
+.tpl-intent {
+  margin: 0 0 1.5rem; padding: 1.2rem 1.3rem;
+  border: 0; border-left: .32rem solid var(--teal-700);
+  background: color-mix(in oklab, var(--paper-100) 91%, var(--teal-700));
+}
+.tpl-intent__label { margin: 0 0 .4rem; color: var(--teal-700); font: 800 .68rem/1.2 var(--sc-font-text); letter-spacing: .16em; text-transform: uppercase; }
+.tpl-intent__text { margin: 0 0 .7rem; font: italic 400 clamp(1.1rem, 2.9vw, 1.6rem)/1.32 var(--sc-font-display); }
+.tpl-intent__why { margin: 0; color: var(--ink-600); font-size: .92rem; }
+
+/* ----------------------------------------------------------------- ZDJECIA */
+.tpl-fig { margin: 0 0 1.4rem; }
+.tpl-fig img {
+  display: block; width: 100%; height: auto; background: var(--paper-300);
+  border: 1px solid rgb(27 31 28 / .12); box-shadow: 0 14px 28px -18px rgb(27 31 28 / .55);
+}
+.tpl-fig figcaption { margin-top: .5rem; color: var(--ink-600); font: italic 400 .88rem/1.4 var(--sc-font-display); }
+.tpl-fig--hero img { aspect-ratio: 3 / 2; object-fit: cover; }
+.tpl-fig--wide img { aspect-ratio: 16 / 9; object-fit: cover; }
+.tpl-stop__gallery { display: grid; gap: 1.2rem; margin-bottom: 1.2rem; }
+.tpl-stop__gallery img { aspect-ratio: 4 / 3; object-fit: cover; }
+
+/* ------------------------------------------------------- SEKCJE KARTOWE */
+.tpl-rituals { padding: clamp(3rem, 8vw, 6rem) 0; background: var(--forest-900); color: var(--ivory-ink); }
+.tpl-rituals h2 { color: var(--paper-100); }
+.tpl-rituals .tpl-lede { color: var(--ivory-soft); }
+.tpl-rituals .tpl-kicker { color: var(--vermilion-400); }
+.tpl-rituals__grid { display: grid; gap: 1rem; margin: 1.8rem 0 2rem; }
+.tpl-rituals .tpl-card { padding-block: 1.35rem; border-top: 1px solid rgb(241 235 223 / .22); background: rgb(243 238 227 / .06); }
+.tpl-rituals .tpl-card h3 { color: var(--paper-100); }
+.tpl-rituals .tpl-card p { color: var(--ivory-soft); }
+.tpl-rituals__shots { display: grid; gap: 1.2rem; }
+.tpl-rituals__shots .tpl-fig img { aspect-ratio: 3 / 2; object-fit: cover; border-color: rgb(241 235 223 / .2); }
+.tpl-rituals__shots figcaption { color: var(--ivory-soft); }
+
+.tpl-card { padding: 1.1rem 1.2rem; border: 0; background: var(--paper-100); box-shadow: 0 1px 0 rgb(27 31 28 / .06), 0 10px 24px -14px rgb(27 31 28 / .35); }
+.tpl-card h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+.tpl-card p { color: var(--ink-600); font-size: .95rem; margin: 0; }
+
+.tpl-rules { padding: clamp(3rem, 8vw, 5rem) 0; background: var(--paper-100); }
+.tpl-rules__list { list-style: none; display: grid; gap: .8rem; margin: 1.6rem 0 0; padding: 0; }
+.tpl-rules__list li { display: grid; gap: .2rem; padding: .85rem 0 .95rem 1.6rem; border-top: 1px solid rgb(27 31 28 / .16); position: relative; }
+.tpl-rules__list li::before {
+  content: ""; position: absolute; left: 0; top: 1.25rem;
+  width: .55rem; height: .55rem; background: var(--vermilion-600); transform: rotate(45deg);
+}
+.tpl-rule__t { margin: 0; font-weight: 750; }
+.tpl-rule__d { margin: 0; color: var(--ink-600); font-size: .93rem; }
+
+.tpl-beyond { padding: clamp(3rem, 8vw, 5rem) 0; background: var(--paper-200); }
+.tpl-beyond__grid { display: grid; gap: 1.2rem; margin-top: 1.6rem; }
+.tpl-card--wide p { font-size: 1rem; }
+
+.tpl-practical { padding: clamp(3rem, 8vw, 5rem) 0 clamp(3rem, 7vw, 4rem); background: var(--sand-200); }
+.tpl-practical__grid { display: grid; gap: 1rem; margin-top: 1.6rem; }
+.tpl-note { margin-top: 1.6rem; color: var(--ink-600); font-size: .82rem; font-style: italic; }
+
+/* ------------------------------------------------------------------ STOPKA */
+.tpl-foot { padding: clamp(3rem, 7vw, 4.5rem) 0 clamp(2.5rem, 6vw, 3.5rem); background: var(--forest-800); color: var(--ivory-soft); }
+.tpl-foot h2 { color: var(--paper-100); font-size: clamp(1.3rem, 3.4vw, 1.8rem); }
+.tpl-foot__cols { display: grid; gap: 2.2rem; }
+.tpl-foot a { color: var(--vermilion-400); }
+.tpl-foot__src, .tpl-foot__credits { margin: .8rem 0 0; padding-left: 1.2rem; font-size: .82rem; line-height: 1.7; }
+.tpl-foot__credits { list-style: none; padding-left: 0; columns: 2; column-gap: 1.6rem; }
+.tpl-foot__credits li { break-inside: avoid; }
+.tpl-foot__intro { font-size: .84rem; max-width: 34rem; }
+.tpl-foot__back { margin-top: 2.2rem; padding-top: 1.2rem; border-top: 1px solid rgb(241 235 223 / .2); }
+
+/* -------------------------------------------------------------- DESKTOP */
+@media (min-width: 46rem) {
+  .tpl-wishes__list { grid-template-columns: repeat(3, 1fr); }
+  .tpl-rituals__grid { grid-template-columns: repeat(2, 1fr); }
+  .tpl-rituals__shots { grid-template-columns: repeat(3, 1fr); }
+  .tpl-practical__grid { grid-template-columns: repeat(2, 1fr); }
+  .tpl-beyond__grid { grid-template-columns: repeat(2, 1fr); }
+  .tpl-stop__gallery { grid-template-columns: repeat(2, 1fr); }
+  .tpl-rules__list { grid-template-columns: repeat(2, 1fr); column-gap: 2rem; }
+  .tpl-foot__cols { grid-template-columns: 1fr 1.4fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpl-body * { animation: none !important; transition: none !important; }
+}
+
+/* ---- naroznik: oddech wokol PL/EN i linkow (po przegladzie 8.10) ---- */
+.tpl-body .corner { gap: .45rem; row-gap: .4rem; }
+.tpl-body .corner__link { padding-inline: .2rem; }
+@media (max-width: 30rem) {
+  .tpl-hero__inner { padding-top: clamp(6.5rem, 20vh, 10rem); }
+}
